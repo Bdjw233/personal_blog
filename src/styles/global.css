@@ -515,7 +515,7 @@ html:not([data-theme="light"]) .theme-icon-moon { display: none; }
 /* =========================================================
    正文排版
    ========================================================= */
-[data-lang][hidden] { display: none; }
+[data-lang-block][hidden] { display: none; }
 
 .prose {
   font-size: 16px;

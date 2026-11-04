@@ -264,9 +264,9 @@ const personJsonLd = {
             el.textContent = en ? el.dataset.en : el.dataset.zh;
           });
 
-          // 整块内容切换（文章正文等 [data-lang] 容器）
-          document.querySelectorAll('[data-lang]').forEach(function (el) {
-            el.hidden = el.dataset.lang !== lang;
+          // 整块内容切换（文章正文等 [data-lang-block] 容器）
+          document.querySelectorAll('[data-lang-block]').forEach(function (el) {
+            el.hidden = el.dataset.langBlock !== lang;
           });
 
           root.lang = en ? 'en' : 'zh-CN';
