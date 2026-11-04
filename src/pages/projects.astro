@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Projects from '../components/Projects.astro';
+---
+
+<BaseLayout
+  title="项目 · 沈宇轩"
+  titleEn="Projects · Shen Yuxuan"
+  description="沈宇轩的项目：口腔诊所智能接诊系统、个人站点。"
+  descriptionEn="Selected projects by Shen Yuxuan: a dental clinic reception system and this site."
+>
+  <div class="page-head">
+    <div class="page-container">
+      <p class="eyebrow">
+        <span data-en="Projects">项目</span>
+      </p>
+      <h1 class="title-lg mt-5">
+        <span data-en="Things I have built">做过的项目</span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-[30rem] text-[13px] leading-relaxed text-ink-3">
+        <span data-en="Fewer, but finished — what is listed here actually shipped.">
+          数量不多，但都是真正做完、能跑起来的东西。
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <Projects variant="full" showHead={false} />
+</BaseLayout>

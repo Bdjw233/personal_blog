@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import About from '../components/About.astro';
+import { profile } from '../data/profile';
+---
+
+<BaseLayout
+  title={`关于 · ${profile.name.zh}`}
+  titleEn={`About · ${profile.name.en}`}
+  description={`${profile.name.zh}的简历与技能：${profile.headline.zh}。`}
+  descriptionEn={`Resume and skills of ${profile.name.en}: ${profile.headline.en}.`}
+>
+  <div class="page-head">
+    <div class="page-container">
+      <p class="eyebrow">
+        <span data-en="About">关于</span>
+      </p>
+      <h1 class="title-lg mt-5">
+        <span data-en="A short profile">关于我</span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-[30rem] text-[13px] leading-relaxed text-ink-3">
+        <span data-en={profile.headline.en}>{profile.headline.zh}</span>
+      </p>
+    </div>
+  </div>
+
+  <About variant="full" showHead={false} />
+</BaseLayout>

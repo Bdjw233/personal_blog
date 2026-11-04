@@ -1,0 +1,68 @@
+---
+import { profile } from '../data/profile';
+const base = import.meta.env.BASE_URL;
+---
+
+<section class="relative flex min-h-[calc(100svh-4rem)] items-center">
+  <div class="page-container w-full" style="padding-block: clamp(4rem, 9vw, 6.5rem);">
+    <div class="mx-auto max-w-[42rem] text-center">
+      <p class="eyebrow reveal">
+        <span data-en={profile.role.en}>{profile.role.zh}</span>
+      </p>
+
+      <h1
+        class="reveal mt-7 font-serif text-[clamp(2.9rem,8vw,4.6rem)] leading-[1.12] tracking-[0.03em] text-ink"
+        style="animation-delay: 0.08s;"
+        data-en={profile.name.en}
+      >
+        {profile.name.zh}
+      </h1>
+
+      <p
+        class="reveal mx-auto mt-6 max-w-[30rem] text-[13px] leading-relaxed tracking-[0.06em] text-ink-3"
+        style="animation-delay: 0.16s;"
+      >
+        <span data-en={profile.headline.en}>{profile.headline.zh}</span>
+      </p>
+
+      <p
+        class="reveal mx-auto mt-9 max-w-[34rem] font-serif text-[15px] leading-[2.05] text-ink-2"
+        style="animation-delay: 0.24s;"
+      >
+        <span data-en={profile.tagline.en}>{profile.tagline.zh}</span>
+      </p>
+
+      <div class="reveal mt-10 flex flex-wrap items-center justify-center gap-x-7 gap-y-3" style="animation-delay: 0.32s;">
+        <a
+          href={`${base}projects`}
+          class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-ink-2 transition-colors hover:text-accent"
+        >
+          <span data-en="View projects">查看项目</span>
+          <span class="post-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a
+          href={`${base}blog`}
+          class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-ink-2 transition-colors hover:text-accent"
+        >
+          <span data-en="Read the blog">阅读博客</span>
+          <span class="post-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-ink-2 transition-colors hover:text-accent"
+        >
+          GitHub
+          <span class="post-arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <p class="reveal mt-12 text-[11px] tracking-[0.14em] text-ink-3" style="animation-delay: 0.4s;">
+        <span data-en={profile.cohort.en}>{profile.cohort.zh}</span>
+      </p>
+    </div>
+  </div>
+</section>

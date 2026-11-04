@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="页面不存在 · 沈宇轩"
+  titleEn="Page not found · Shen Yuxuan"
+  description="这个页面不存在。"
+  descriptionEn="This page does not exist."
+>
+  <section class="flex min-h-[calc(100svh-4rem)] items-center">
+    <div class="page-container text-center">
+      <p class="eyebrow">404</p>
+      <h1 class="title-lg mt-6">
+        <span data-en="This page went missing">这个页面不见了</span>
+      </h1>
+      <p class="lead mx-auto mt-6 max-w-[26rem]">
+        <span data-en="The link may be outdated, or the post was removed. Try the home page or the blog index.">
+          链接可能已经失效，或者文章被删掉了。回首页或者去博客列表看看。
+        </span>
+      </p>
+      <div class="mt-9 flex items-center justify-center gap-8">
+        <a href={base} class="text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-accent">
+          <span data-en="Home">首页</span>
+        </a>
+        <a href={`${base}blog`} class="text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-accent">
+          <span data-en="Blog">博客</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

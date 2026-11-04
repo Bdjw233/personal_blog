@@ -1,0 +1,77 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  variant?: 'summary' | 'full';
+  showHead?: boolean;
+}
+
+const { variant = 'summary', showHead = true } = Astro.props;
+const isFull = variant === 'full';
+---
+
+<section id="projects" class="section">
+  <div class="page-container">
+    {
+      showHead && (
+        <div class="section-head">
+          <p class="eyebrow">
+            <span data-en="Projects">项目</span>
+          </p>
+          <h2 class="title-lg mt-5">
+            <span data-en="Things I have built">项目</span>
+          </h2>
+        </div>
+      )
+    }
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        profile.projects.map((project) => (
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="card flex flex-col p-6"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="font-serif text-[16px] leading-snug text-ink">
+                <span data-en={project.name.en}>{project.name.zh}</span>
+              </h3>
+              <span class="mt-1 shrink-0 text-[12px] text-ink-3 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">
+                ↗
+              </span>
+            </div>
+
+            <p class="mt-2 text-[11px] uppercase tracking-[0.12em] text-ink-3">
+              <span data-en={project.role.en}>{project.role.zh}</span>
+              <span class="mx-2 opacity-50">·</span>
+              <span>{project.period}</span>
+            </p>
+
+            <p class="mt-4 text-[13px] leading-relaxed text-ink-2">
+              <span data-en={project.summary.en}>{project.summary.zh}</span>
+            </p>
+
+            {isFull && (
+              <ul class="mt-4 space-y-1.5 text-[12px] leading-relaxed text-ink-3">
+                {project.highlights.map((item) => (
+                  <li class="relative pl-3.5">
+                    <span class="absolute left-0 top-[0.72em] h-[2px] w-[2px] rounded-full bg-bamboo" aria-hidden="true" />
+                    <span data-en={item.en}>{item.zh}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div class="mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-5 text-[11px] tracking-[0.06em] text-ink-3">
+              {project.stack.map((tech) => (
+                <span>{tech}</span>
+              ))}
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+---
+import { profile } from '../data/profile';
+
+interface Props {
+  showHead?: boolean;
+}
+
+const { showHead = true } = Astro.props;
+---
+
+<section id="contact" class="section">
+  <div class="page-container text-center">
+    {
+      showHead && (
+        <>
+          <p class="eyebrow">
+            <span data-en="Contact">联系</span>
+          </p>
+
+          <h2 class="title-lg mt-5">
+            <span data-en="Say hello">保持联系</span>
+          </h2>
+        </>
+      )
+    }
+
+    <p class="lead mx-auto mt-6 max-w-[28rem]">
+      <span data-en="Open to internships and full-time roles in data, AI applications and frontend engineering — or just a talk about RAG and clean datasets.">
+        在找数据、AI 应用或前端方向的实习 / 全职机会，也欢迎聊聊 RAG 与数据清洗。
+      </span>
+    </p>
+
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+      <a
+        href={`mailto:${profile.email}`}
+        class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-accent"
+      >
+        Email
+        <span class="post-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a
+        href={profile.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-accent"
+      >
+        GitHub
+        <span class="post-arrow" aria-hidden="true">↗</span>
+      </a>
+      <a
+        href={profile.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink-2 transition-colors hover:text-accent"
+      >
+        LinkedIn
+        <span class="post-arrow" aria-hidden="true">↗</span>
+      </a>
+    </div>
+
+    <dl class="mx-auto mt-12 grid max-w-[26rem] gap-2 border-t pt-8 text-left text-[13px]" style="border-color: var(--line);">
+      <div class="flex justify-between gap-6">
+        <dt class="text-ink-3"><span data-en="Email">邮箱</span></dt>
+        <dd class="text-ink-2">{profile.email}</dd>
+      </div>
+      <div class="flex justify-between gap-6">
+        <dt class="text-ink-3"><span data-en="WeChat">微信</span></dt>
+        <dd class="text-ink-2">{profile.wechat}</dd>
+      </div>
+      <div class="flex justify-between gap-6">
+        <dt class="text-ink-3"><span data-en="Phone">电话</span></dt>
+        <dd class="text-ink-2">{profile.phone}</dd>
+      </div>
+      <div class="flex justify-between gap-6">
+        <dt class="text-ink-3"><span data-en="Based in">所在地</span></dt>
+        <dd class="text-ink-2">
+          <span data-en={profile.location.en}>{profile.location.zh}</span>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</section>

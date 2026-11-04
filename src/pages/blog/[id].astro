@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { formatDate, readingTime } from '../../utils/format';
+import { siteConfig } from '../../config/site';
+
+const base = import.meta.env.BASE_URL;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const postsEn = await getCollection('blogEn');
+  const enById = new Map(postsEn.map((p) => [p.id, p]));
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post, postEn: enById.get(post.id) },
+  }));
+}
+
+const { post, postEn } = Astro.props;
+const { Content } = await render(post);
+const enRendered = postEn ? await render(postEn) : null;
+const ContentEn = enRendered?.Content;
+
+const minutes = readingTime(post.body ?? '');
+const url = new URL(`${base}blog/${post.id}`, siteConfig.url);
+
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: { '@type': 'Person', name: '沈宇轩', url: siteConfig.url },
+  mainEntityOfPage: url.href,
+  keywords: post.data.tags.join(', '),
+  inLanguage: 'zh-CN',
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} · 沈宇轩`}
+  titleEn={`${post.data.titleEn ?? post.data.title} · Shen Yuxuan`}
+  description={post.data.description}
+  descriptionEn={post.data.descriptionEn ?? post.data.description}
+  ogType="article"
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={post.data.pubDate.toISOString()} />
+    <meta property="article:modified_time" content={(post.data.updatedDate ?? post.data.pubDate).toISOString()} />
+    {post.data.tags.map((tag) => <meta property="article:tag" content={tag} />)}
+  </Fragment>
+
+  <article>
+    <div class="page-head" style="text-align: left;">
+      <div class="page-container">
+        <a
+          href={`${base}blog`}
+          class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-ink-3 transition-colors hover:text-accent"
+        >
+          <span aria-hidden="true">←</span>
+          <span data-en="All posts">返回文章列表</span>
+        </a>
+
+        <h1 class="mt-8 font-serif text-[clamp(1.6rem,4.5vw,2.35rem)] leading-[1.35] text-ink" data-en={post.data.titleEn ?? post.data.title}>
+          {post.data.title}
+        </h1>
+
+        <div class="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] tracking-[0.06em] text-ink-3">
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          <span class="opacity-50">/</span>
+          <span>{minutes} min</span>
+          {
+            post.data.tags.length > 0 && (
+              <>
+                <span class="opacity-50">/</span>
+                <span class="text-bamboo">{post.data.tags.map((tag) => `#${tag}`).join('  ')}</span>
+              </>
+            )
+          }
+        </div>
+
+        <p class="mt-6 max-w-[38rem] font-serif text-[14px] leading-[1.95] text-ink-2" data-en={post.data.descriptionEn ?? post.data.description}>
+          {post.data.description}
+        </p>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top: 0;">
+      <div class="page-container">
+        <div class="prose" data-lang="zh">
+          <Content />
+        </div>
+        {ContentEn && (
+          <div class="prose" data-lang="en" hidden>
+            <ContentEn />
+          </div>
+        )}
+
+        <div class="mt-16 border-t pt-10" style="border-color: var(--line);">
+          <a
+            href={`${base}blog`}
+            class="text-[11px] uppercase tracking-[0.14em] text-ink-3 transition-colors hover:text-accent"
+          >
+            <span data-en="← Back to posts">← 返回文章列表</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+</BaseLayout>

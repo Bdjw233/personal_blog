@@ -1,0 +1,157 @@
+---
+import { profile } from '../data/profile';
+
+const base = import.meta.env.BASE_URL;
+
+interface Props {
+  variant?: 'summary' | 'full';
+  showHead?: boolean;
+}
+
+const { variant = 'summary', showHead = true } = Astro.props;
+const isFull = variant === 'full';
+const experiences = isFull ? profile.experience : profile.experience.slice(0, 3);
+---
+
+<section id="about" class="section">
+  <div class="page-container">
+    {
+      showHead && (
+        <div class="section-head">
+          <p class="eyebrow">
+            <span data-en="About">关于</span>
+          </p>
+          <h2 class="title-lg mt-5">
+            <span data-en="A short profile">关于我</span>
+          </h2>
+        </div>
+      )
+    }
+
+    <div class="grid items-start gap-10 md:grid-cols-[210px_1fr] md:gap-12">
+      <!-- 照片 -->
+      <div class="mx-auto w-full max-w-[210px] md:sticky md:top-24">
+        <div class="about-photo">
+          <img
+            src={`${base}images/avatar.jpg`}
+            alt={`${profile.name.zh} 的照片`}
+            width="420"
+            height="525"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+
+      <!-- 正文 -->
+      <div class="min-w-0">
+        <p class="lead">
+          <span data-en={profile.intro.en}>{profile.intro.zh}</span>
+        </p>
+        <p class="lead mt-5">
+          <span data-en={profile.introSecondary.en}>{profile.introSecondary.zh}</span>
+        </p>
+
+        <!-- 技能 -->
+        <div class="mt-12 border-t pt-10" style="border-color: var(--line);">
+          <h3 class="text-[11px] uppercase tracking-[0.3em] text-bamboo" style="margin-right: -0.3em;">
+            <span data-en="Skills">专业技能</span>
+          </h3>
+
+          <dl class="mt-7 space-y-4">
+            {
+              profile.skillGroups.map((group) => (
+                <div class="grid gap-1 sm:grid-cols-[92px_1fr] sm:gap-4">
+                  <dt class="text-[12px] text-ink-3">
+                    <span data-en={group.label.en}>{group.label.zh}</span>
+                  </dt>
+                  <dd class="text-[13px] leading-relaxed text-ink-2">
+                    {typeof group.items === 'string' ? (
+                      group.items
+                    ) : (
+                      <span data-en={group.items.en}>{group.items.zh}</span>
+                    )}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <!-- 经历 -->
+        <div class="mt-12 border-t pt-10" style="border-color: var(--line);">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="text-[11px] uppercase tracking-[0.3em] text-bamboo" style="margin-right: -0.3em;">
+              <span data-en="Experience">经历</span>
+            </h3>
+            {
+              !isFull && (
+                <a href={`${base}about`} class="text-[11px] tracking-[0.12em] text-ink-3 transition-colors hover:text-accent">
+                  <span data-en="All experience →">全部经历 →</span>
+                </a>
+              )
+            }
+          </div>
+
+          <div class="timeline mt-8">
+            {
+              experiences.map((job) => (
+                <article class={`timeline-item ${job.current ? 'is-current' : ''}`}>
+                  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                    <h4 class="font-serif text-[15px] leading-snug text-ink">
+                      <span data-en={job.company.en}>{job.company.zh}</span>
+                    </h4>
+                    <span class="text-[11px] tracking-[0.08em] text-ink-3">{job.period}</span>
+                  </div>
+                  <p class="mt-1 text-[12px] text-ink-3">
+                    <span data-en={job.title.en}>{job.title.zh}</span>
+                    <span class="mx-2 opacity-50">·</span>
+                    <span data-en={job.place.en}>{job.place.zh}</span>
+                  </p>
+                  <ul class="mt-3 space-y-2 text-[13px] leading-relaxed text-ink-2">
+                    {job.points.map((point) => (
+                      <li class="relative pl-4">
+                        <span class="absolute left-0 top-[0.7em] h-[3px] w-[3px] rounded-full bg-bamboo" aria-hidden="true" />
+                        <span data-en={point.en}>{point.zh}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- 教育 -->
+        {
+          isFull && (
+            <div class="mt-12 border-t pt-10" style="border-color: var(--line);">
+              <h3 class="text-[11px] uppercase tracking-[0.3em] text-bamboo" style="margin-right: -0.3em;">
+                <span data-en="Education">教育</span>
+              </h3>
+
+              <div class="mt-7 space-y-6">
+                {profile.education.map((item) => (
+                  <div>
+                    <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <p class="font-serif text-[15px] text-ink">
+                        <span data-en={item.school.en}>{item.school.zh}</span>
+                      </p>
+                      <span class="text-[11px] tracking-[0.08em] text-ink-3">{item.period}</span>
+                    </div>
+                    <p class="mt-1 text-[12px] text-ink-3">
+                      <span data-en={item.degree.en}>{item.degree.zh}</span>
+                    </p>
+                    <p class="mt-1 text-[12px] leading-relaxed text-ink-3">
+                      <span data-en={item.note.en}>{item.note.zh}</span>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout
+  title="博客 · 沈宇轩"
+  titleEn="Blog · Shen Yuxuan"
+  description="关于大模型语料、RAG、前端工程与实习复盘的技术笔记。"
+  descriptionEn="Notes on LLM corpora, RAG, frontend engineering and internship lessons."
+>
+  <div class="page-head">
+    <div class="page-container">
+      <p class="eyebrow">
+        <span data-en="Writing">博客</span>
+      </p>
+      <h1 class="title-lg mt-5">
+        <span data-en="Notes on data and interfaces">全部文章</span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-[30rem] text-[13px] leading-relaxed text-ink-3">
+        <span data-en="Everything here comes from work I actually did — corpora, pipelines, interfaces and the mistakes along the way.">
+          写的都是自己做过的事：语料、流水线、界面，以及中间踩过的坑。
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="page-container">
+      <PostList posts={sorted} />
+    </div>
+  </section>
+</BaseLayout>

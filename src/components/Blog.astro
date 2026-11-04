@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import PostList from './PostList.astro';
+
+const base = import.meta.env.BASE_URL;
+
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+const display = compact ? sorted.slice(0, 4) : sorted;
+---
+
+<section id="blog" class="section">
+  <div class="page-container">
+    <div class="section-head">
+      <p class="eyebrow">
+        <span data-en="Writing">博客</span>
+      </p>
+      <h2 class="title-lg mt-5">
+        <span data-en="Notes on data and interfaces">最近写的</span>
+      </h2>
+    </div>
+
+    <PostList posts={display} />
+
+    {
+      compact && (
+        <div class="mt-10 text-center">
+          <a
+            href={`${base}blog`}
+            class="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-ink-3 transition-colors hover:text-accent"
+          >
+            <span data-en="All posts">全部文章</span>
+            <span class="post-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      )
+    }
+  </div>
+</section>

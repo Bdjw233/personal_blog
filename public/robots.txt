@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://Bdjw233.github.io/personal_blog/sitemap-index.xml
