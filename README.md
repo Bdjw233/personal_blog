@@ -62,3 +62,8 @@ SITE_URL=https://Bdjw233.github.io BASE_PATH=/my-blog/ npm run build
 ## 未来
 
 使用treejs
+
+## License
+
+代码采用 [MIT License](LICENSE)，版权归 沈宇轩（Shen Yuxuan）所有。
+博客文章等原创内容保留版权，未经许可请勿转载。
